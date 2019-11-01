@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+	<title>Bioskop Engima</title>
+  <link rel="stylesheet" href="app/assets/css/login.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<body>
+    <div class="wrap">
+        <form method="POST" class="login-form" action="" name="myForm">
+            <div class="form-header">
+                <h2>Welcome to <b>Engi</b>ma!</h2>
+            </div>
+            <!--Email Input-->
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" name="email" placeholder="" id="email" required>
+              <div class = "error1" id="error1"></div>
+            </div>
+            <!--Password Input-->
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" name="password" placeholder=""  id="password" required>
+              <div class = "error2" id = "error2"></div>
+            </div>
+            <!--Login Button-->
+            <div class="form-group">
+              <!-- <button name="login" type="submit" id="login">Login</button> -->
+              <div class="form-submit" id="form-submit">
+                Login
+              </div>
+            </div>
+            <div class="form-footer">
+              <p>Don't have an account? <a href="register.html">Register here</a> </p>
+            </div>
+
+        </form>
+    </div>
+		<script src="app/user/login_process.js"></script>
+</body>
+</html>

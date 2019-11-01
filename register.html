@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Engima</title>
+    <link rel="stylesheet" href="app/assets/css/register.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+<body>
+    <div class="wrap">
+        <form method="POST" class="register-form" name="register-form" >
+            <div class="register-header">
+                <h2>Welcome to <b>Engi</b>ma!</h2>
+            </div>
+
+            <div class="register-group">
+              <label>Username</label>
+              <input type="text" name="username" placeholder="john.johndoe" id="username" onkeyup="validateUsername(this.value)" required>
+              <div id="un" class="error"></div>
+            </div>
+
+            <div class="register-group">
+              <label>Email Address</label>
+              <input type="text" name="email" placeholder="john@email.com" id="email" onkeyup="validateEmail(this.value)" required>
+              <div id="em" class="error"></div>
+            </div>
+
+            <div class="register-group">
+              <label>Phone Number</label>
+              <input type="text" name="phone" placeholder="+62813xxxxxxxx" id="phone" onkeyup="validatePhone(this.value)" required>
+              <div id="pn" class="error"></div>
+            </div>
+
+            <div class="register-group">
+              <label>Password</label>
+              <input type="password" name="password" placeholder="make as strong as possible" id="password" required>
+              <div class="error" id="pass"></div>
+            </div>
+
+            <div class="register-group">
+              <label>Confirm Password</label>
+              <input type="password" name="confirm_password" placeholder="same as above" id="confirm_password" required>
+              <div class="error" id="cpass"></div>
+            </div>
+
+            <div class="register-group">
+              <label>Profil Picture</label>
+              <input type="file" name="profile_pic" id="profile_pic">
+              <div class="error" id="pic"></div>
+            </div>
+
+            <div class="register-group">
+              <div class='register-submit' id='register-submit' onclick="processRegistration()">Register</div>
+            </div>
+            <div class="form-footer">
+              <p>Already have account? <a href="login.html">Login here</a> </p>
+            </div>
+        </form>
+    </div>
+    <!-- <script type="module" src="app/cookie.js"></script> -->
+    <script src="app/user/create-user.js"></script>s
+</body>
+</html>

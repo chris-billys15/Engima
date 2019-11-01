@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Engiman</title>
+        <link rel='stylesheet' type='text/css' href='app/assets/css/movie_detail_style.css'>
+        <script src="https://kit.fontawesome.com/f0777b791c.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class='header-container'>
+            <span class='two-item-group'>
+                <a class='engiman-text' href="home.html">
+                    <span class='engi-text'>Engi</span>
+                    <span class='man-text'>man</span>
+                </a>
+                <div class='search-bar'>    
+                    <input class="search-box" type="text" name="" placeholder="Search movie" />
+                    <a class="search-button" href="#" onclick="searchMovie()"><i class="fas fa-search"></i></a>            
+                </div>
+            </span>
+            <span class='two-item-group'>   
+                <a class='transactions-button' href="transaction.html">Transactions</a>
+                <a class='account-button' href="login.html">Logout</a>
+            </span>
+        </div>
+        
+            <div class='movie-content-container'>
+                <div class='movie-details'>    
+                    <img class='img-detail'/>
+                    <div class='text-detail'>
+                        <div class='title'></div>
+                        <div class='genre-duration'>
+                            <div class='genres'></div>
+                            <div class='duration'></div>
+                        </div>
+                        <div class='release-date'></div>
+                        <div class='score-container'>
+                            <i class='fas fa-star'></i>
+                            <div class='score'></div>
+                            <div class='per-10'>/10</div>
+                        </div>
+                        <div class='synopsis'></div>
+                    </div>
+                </div>
+                
+                
+                <div class='schedule-review'>
+                    <div class='schedule'>
+                        <div class='schedule-title'>
+                            Schedule
+                        </div>
+                        <table class='schedule-table'>
+                            <tr class='schedule-table-head'>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Available Seats</th>
+                                <th></th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class='review'>
+                        <div class='review-title'>
+                            Review
+                        </div>
+                        <div class='user-reviews'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <script src='app/movie/read-movie-detail.js'></script>
+    </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Bioskop Engima</title>
+	<link rel="stylesheet" type="text/css" href="app/assets/css/user-review.css">
+	<script src="https://kit.fontawesome.com/f0777b791c.js" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class='header-container'>
+		<span class='two-item-group'>
+			<a class='engiman-text' href="home.html">
+				<span class='engi-text'>Engi</span>
+				<span class='man-text'>man</span>
+			</a>
+			<div class='search-bar'>    
+				<input class="search-box" type="text" name="" placeholder="Search movie" />
+				<a class="search-button" href="#" onclick="searchMovie()"><i class="fas fa-search"></i></a>            
+			</div>
+		</span>
+		<span class='two-item-group'>   
+			<a class='transactions-button' href="transaction.html">Transactions</a>
+			<a class='account-button' href="login.html">Logout</a>
+		</span>
+	</div>
+
+	<div class="content-list-container">
+		<div class="head-container">
+			<a id="back-button" href="/transaction.html">
+				<img src="app/assets/img/back-arrow.png">
+			</a>
+			<!-- <div class="movie-title">
+				Avengers: Endgame
+			</div> -->
+		</div>
+		<div class="review-content">
+			<div class="rating">
+				<p id="p-rating">Add Rating </p> 
+				<div class="star-container">
+					 <select name="stars" id='stars'>
+					  <option id="star1" value="1">1</option>
+					  <option id="star2" value="2">2</option>
+					  <option id="star3" value="3">3</option>
+					  <option id="star4" value="4">4</option>
+					  <option id="star5" value="5">5</option>
+					  <option id="star6" value="6">6</option>
+					  <option id="star7" value="7">7</option>
+					  <option id="star8" value="8">8</option>
+					  <option id="star9" value="9">9</option>
+					  <option id="star10" value="10">10</option>
+					</select> 
+					<!-- <span id="rate1">1</span>
+					<span id="rate2">2</span>
+					<span id="rate3">3</span>
+					<span id="rate4">4</span>
+					<span id="rate5">5</span>
+					<span id="rate6">6</span>
+					<span id="rate7">7</span>
+					<span id="rate8">8</span>
+					<span id="rate9">9</span>
+					<span id="rate10">10</span> -->
+				</div>
+			</div>
+			<div class="review">
+				<p id="p-review">Add Review</p> 
+				<div class="review-box"> 
+					<!-- <input class="textbox" type="text" name="content">  -->
+					<textarea name="content" cols="100" rows="5" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"></textarea>
+					<!-- <div class="buttons">
+						<input class="edit-button" type="submit" name="Edit">
+						<input class="add-button" type="submit" name="Submit">
+						<div class="cancel-button">Cancel</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src='app/search/search.js'></script>
+	<script type="text/javascript" src="app/review/create.js"></script>
+</body>
+</html>

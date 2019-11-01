@@ -1,0 +1,202 @@
+html{
+
+}
+
+body{
+    font-family: 'lato';
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+
+html, body {
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+  
+
+.body > *{
+    flex-shrink: 0;
+}
+
+img{
+    height: 200px;
+    width: 150px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2% 8% 1% 8%;
+    border-bottom: 1px solid #ccc;
+    background-color: white;
+}
+
+  
+.engiman-text{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-weight: bolder;
+    margin-right: 2%;
+    font-size: 1.25em;
+}
+
+.engi-text{
+    color: #00bfff;
+}
+
+
+.two-item-group{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+}
+
+.logo-img, .transactions-button{
+    padding-right: 25px;
+}
+
+
+.search-bar{
+    display: flex;
+    align-self: center;
+    margin-left: 2%;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 7%;
+    padding-left: 10px;
+    padding-right: 5px;
+    background-color: white;
+}
+
+.search-box{
+    outline: none;
+    background: none;
+    border: none;
+    width: 20em;
+}
+
+.search-button{
+    color:#ccc 
+}
+
+.black-background{
+    background-color: black;
+    padding-left: 40px;
+    padding-right: 40px;
+    flex-grow: 1;
+}
+
+.content-list-container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /*align-content: center;*/
+    margin: 0px 7% 0px 7%;
+    padding: 0 2em 0 2em;
+    flex-grow: 1;
+}
+
+
+.content-name, .content-price{
+    margin: 2px;
+}
+
+.content-container .content-img{
+    border-radius: 15px;
+}
+
+.content-img{
+    width: 200px;
+    /*height: auto;*/
+}
+#home-button{
+    padding-right: 25px;
+
+}
+.movie-schedule{
+    display: flex;
+    flex-direction: column;
+    /*background-color: blue;*/
+}
+.movie-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+.banner{
+    font-size: 50px;
+    padding-bottom: 50px;
+}
+.transaction-container{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    /*flex-basis: 60%;*/
+}
+.content-detail{
+    display: flex;
+    flex-direction: column;
+}
+.schedule{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.key{
+    color:#54cbe3;
+    padding-right: 20px;
+}
+.review-check{
+    color:#91918e;
+}
+.white-space{
+    flex-basis: 15%
+}
+.review-button{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    color: white;
+}
+.add-button{
+    background-color: #54cbe3;
+    margin-right: 10px;
+    padding: 1px 7px 1px 7px;
+    border-radius: 5px;
+    /*color: white;*/
+}
+.delete-button{
+    background-color: #ff1717;
+    margin-right: 10px;
+    padding: 1px 7px 1px 7px;
+    border-radius: 5px;
+    /*color: white;*/
+}
+.edit-button{
+    background-color: #12e63d;
+    margin-right: 10px;
+    padding: 1px 7px 1px 7px;
+    border-radius: 5px;
+    /*color: white;*/
+}
+.horizontal-line{
+    margin: 20px 0 20px 0;
+    background-color: #e1e3e1;
+    height: 2px;
+}
+
+

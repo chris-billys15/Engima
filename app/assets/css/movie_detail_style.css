@@ -1,0 +1,230 @@
+html{
+
+}
+
+body{
+    font-family: 'Lato';
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+
+html, body {
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+  
+
+.body > *{
+    flex-shrink: 0;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2% 8% 1% 8%;
+    border-bottom: 1px solid #ccc;
+    background-color: white;
+}
+
+  
+.engiman-text{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-weight: bolder;
+    margin-right: 2%;
+    font-size: 1.25em;
+}
+
+.engi-text{
+    color: #00bfff;
+}
+
+
+.two-item-group{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+}
+
+.logo-img, .transactions-button{
+    padding-right: 25px;
+}
+
+
+.search-bar{
+    display: flex;
+    align-self: center;
+    margin-left: 2%;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 7%;
+    padding-left: 10px;
+    padding-right: 5px;
+    background-color: white;
+}
+
+.search-box{
+    outline: none;
+    background: none;
+    border: none;
+    width: 20em;
+}
+
+.search-button{
+    color:#ccc 
+}
+
+.black-background{
+    background-color: black;
+    padding-left: 40px;
+    padding-right: 40px;
+    flex-grow: 1;
+}
+
+.movie-content-container{
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    padding: 2% 5% 2% 5%;
+    flex-grow: 1;
+    margin: 0px 7% 0px 7%;
+    
+}
+
+.movie-details{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    padding: 0px;
+    margin: 10px;
+    width: auto;
+}
+
+.img-detail{
+    width: 50%;
+}
+
+.text-detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 0 0 0 5%;
+}
+
+.genre-duration .genres{
+    display: inline-block;
+}
+
+.genre-duration .duration{
+    display: inline-block;
+}
+
+.score-container .score{
+    display: inline-block;
+}
+
+.score-container .per-10{
+    display: inline-block;
+}
+
+.schedule-review{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0px;
+    width: 100%;
+}
+
+.schedule-review .schedule, .schedule-review .review{
+    border: 1px solid #ccc;
+}
+
+.schedule-review .schedule{
+    align-self: flex-start;
+    float: left;
+    width: 49%;
+}
+
+.schedule-table{
+    width: 100%;
+}
+
+.schedule-table-head th, .schedule-table-content td{
+    vertical-align: center;
+    text-align: left;
+    padding: 10px;
+}
+
+.schedule-table-content td{
+    border-top: 1px solid #ccc;
+}
+
+.schedule-review .review{
+    display: inline-block;
+    float: right;
+    width: 49%;
+}
+
+.schedule-table-availability{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+}
+
+
+.review .user-reviews{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-reviews .review-content-edge{
+    display: flex;
+    flex-direction: row;
+}
+
+.far fa-user-circle{
+    width: px;
+    height: auto;
+}
+
+.review-content-detail{
+    display: flex;
+    flex-direction: column;
+}
+
+.review-content-detail .score{
+    display: flex;
+    flex-direction: row;
+}
+
+.review-content-detail .review{
+    border: 0px;
+    width: 100%
+}
+
+.review-content-middle{
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: #ccc;
+    display: flex;
+    flex-direction: row;
+}

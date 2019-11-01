@@ -1,0 +1,269 @@
+html{
+
+}
+
+body{
+    font-family: 'lato', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+
+html, body {
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+  
+
+.body > *{
+    flex-shrink: 0;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2% 8% 1% 8%;
+    border-bottom: 1px solid #ccc;
+    background-color: white;
+}
+
+  
+.engiman-text{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    font-weight: bolder;
+    margin-right: 2%;
+    font-size: 1.25em;
+}
+
+.engi-text{
+    color: #00bfff;
+}
+
+
+.two-item-group{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: auto;
+}
+
+.logo-img, .transactions-button{
+    padding-right: 25px;
+}
+
+
+.search-bar{
+    display: flex;
+    align-self: center;
+    margin-left: 2%;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 7%;
+    padding-left: 10px;
+    padding-right: 5px;
+    background-color: white;
+}
+
+.search-box{
+    outline: none;
+    background: none;
+    border: none;
+    width: 20em;
+}
+
+.search-button{
+    color:#ccc 
+}
+
+.black-background{
+    background-color: black;
+    padding-left: 40px;
+    padding-right: 40px;
+    flex-grow: 1;
+}
+
+.content-list-container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex-grow: 1;
+    margin: 0px 20px 0px 20px;
+}
+
+
+#home-button{
+    padding-right: 25px;
+
+}
+.banner{
+    display: flex;
+    flex-direction: row;
+}
+
+#back-button{
+    height: 50px;
+    width: 50px;
+    padding-right: 20px;
+}
+
+.movie-schedule{
+    display: flex;
+    flex-direction: column;
+    /*background-color: blue;*/
+}
+
+.movie-title{
+    font-size: 20px;
+    margin: 0;
+}
+
+.schedule{
+    font-size: 15px;
+}
+
+.kursi-summary-container{
+    display: flex;
+    flex-direction: row;
+}
+
+#kursi-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    flex-basis: 45%;
+    margin-left: 35px;
+    /*background-color: green;*/
+}
+.kursi-screen{
+    display: flex;
+    flex-direction: column;
+}
+.kursi{
+    border-radius: 5px;
+    flex-basis: 7%;
+    /*width: 9%;*/
+    /*padding: 1% 2% 1% 2%;*/
+    padding-top: 0px;
+    text-align: center;
+    border-color: #88c8fc;
+    margin: 8px;
+    height: 45px;
+    border-style: solid;
+    border-width: thin;
+}
+
+
+.available{
+    
+    background-color: white;
+    color: #54cbe3;
+    border-color: #54cbe3;
+}
+.available:focus{
+    background-color: #54cbe3;
+    color: white;
+}
+
+.taken{
+
+    background-color: #bbbdbb; 
+    color: #dce0dd;
+    border-color: #dce0dd;
+}
+
+.screen{
+    /*flex-basis:20%;*/
+    text-align: center;
+    border-style: solid;
+    border-width: thin;
+    background-color: #bbbdbb; 
+    color: #dce0dd;
+    border-color: #dce0dd;
+    padding-top: 5px
+    margin-top:20px;
+}
+
+.vertical-line{
+    margin-left: 5%;
+    background-color: #e1e3e1;
+    flex-basis: 2px;
+    border-radius: 10%;
+}
+
+.summary{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 65%;
+    padding-left: 5%;
+}
+.summary-head{
+    margin: 0 0 5px 0;
+    color: #91918e;
+} 
+.alert{
+    margin: 0px;
+} .ticket-title{
+    margin: 0px;
+} 
+.schedule{
+    margin-top:2px;
+}
+.alert{
+    font-size: 10px;
+}
+.blank-space{
+    height: 50px;
+    width: 300px;
+    /*background-color: black;*/
+}
+
+.buy-button{
+    border-radius: 5%;
+    padding: 0 10px 0 10px;
+    background-color: #54cbe3;
+    color: white;
+    /*align-self: right;*/
+    margin-top: 20px;
+    margin-left: 70%;
+    padding-left: 7%;
+}
+.ticket-title{
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.seat-price{
+    /*padding-top: 50px;*/
+    /*margin-top: 30px;  */
+    display: flex;
+    flex-direction: row;
+    font-size: 15px;
+    font-weight: bold;
+}
+#seat{
+    flex-grow: 1;
+}
+#price{
+    margin-left: 60%;
+    flex-grow: 1;
+}

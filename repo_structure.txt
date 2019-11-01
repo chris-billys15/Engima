@@ -1,0 +1,45 @@
+API
+    config
+        db.sql
+        database.php
+    
+    objects
+        user.php
+        review.php
+        movie.php
+        movie_genre.php
+        genre.php
+        schedule.php
+        ticket.php
+
+    user
+        create.php //create user
+        login.php //login
+        read.php //read all users
+        read_one.php //read specific user
+        search.php
+        update.php //update user profile
+
+    review
+        create.php //create review
+        verification.php //is user valid to review
+        read.php //read all review data
+        update.php //edit review
+        delete.php //delete review
+
+    movie
+        read.php //read all movie data
+        
+    movie_genre
+        read_movie.php //read genres for specific movie data
+
+    genre
+        read_name.php //read genre name from genre_id
+    
+    schedule
+        read_movie.php //read all schedule for a movie
+
+    ticket
+        read_ticket_user.php //read ticket for a user
+        create.php //issue a new ticket
+        read_schedule.php //read tickets for a specific schedule
