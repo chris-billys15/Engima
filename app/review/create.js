@@ -81,7 +81,7 @@ async function loadItBabe(){
 	var cancelButtonElement = createHTMLElement(`<a href="/transaction.html" class="cancel-button" onclick="goBack()">Cancel</a>`)
 
 	// send request to API
-	var readUserReviewURL = "http://localhost/tugas-besar-1-2019/api/review/read_user.php?username=" + username
+	var readUserReviewURL = "http://localhost/engimav2/api/review/read_user.php?username=" + username
 	xhr.open("GET",readUserReviewURL, false)
 	xhr.send()
 
@@ -124,7 +124,7 @@ async function loadItBabe(){
 
 	buttonsElement.appendChild(cancelButtonElement);
 	console.log("schid :" +schedule_id)
-	var readScheduleURL = "http://localhost/tugas-besar-1-2019/api/schedule/read_schedule.php?schedule_id=" + schedule_id
+	var readScheduleURL = "http://localhost/engimav2/api/schedule/read_schedule.php?schedule_id=" + schedule_id
 	xhr.open("GET", readScheduleURL, false)
 	xhr.send()
 	var jsonResponse = JSON.parse(xhr.responseText)
@@ -149,7 +149,7 @@ function postItBabe(){
 	console.log(skor)
 
 	var requestBody = {'username':username,"movie_id":movie_id,"skor":skor,'content':content}
-	var createReviewURL = "http://localhost/tugas-besar-1-2019/api/review/create.php"
+	var createReviewURL = "http://localhost/engimav2/api/review/create.php"
 	xhr.open("POST", createReviewURL, false)
 	xhr.send(JSON.stringify(requestBody))
 
@@ -168,7 +168,7 @@ function editItBabe(){
 	console.log(skor)
 
 	var requestBody = {'username':username,"movie_id":movie_id,"skor":1,'content':content}
-	var updateReviewURL = "http://localhost/tugas-besar-1-2019/api/review/update.php"
+	var updateReviewURL = "http://localhost/engimav2/api/review/update.php"
 	xhr.open("POST", updateReviewURL, false)
 	xhr.send(JSON.stringify(requestBody))
 
@@ -180,6 +180,6 @@ function editItBabe(){
 
 function goBack(){
 	console.log("duck go back")
-	// window.location.replace("file:///home/aryuuu/kuliah/5/wbd/tugas-besar-1-2019/transaction.html");
+	// window.location.replace("file:///home/aryuuu/kuliah/5/wbd/engimav2/transaction.html");
 	
 }

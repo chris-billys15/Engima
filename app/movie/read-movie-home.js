@@ -1,7 +1,7 @@
-var apiRequest1 = fetch('http://localhost/tugas-besar-1-2019/api/movie/read.php').then(function(response){ 
+var apiRequest1 = fetch('http://localhost/engimav2/api/movie/read.php').then(function(response){ 
     return response.json()
 });
-var apiRequest2 = fetch('http://localhost/tugas-besar-1-2019/api/review/read.php').then(function(response){
+var apiRequest2 = fetch('http://localhost/engimav2/api/review/read.php').then(function(response){
     return response.json()
 });
 now_date = (new Date()).toISOString().split("T")[0]

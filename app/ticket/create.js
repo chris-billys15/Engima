@@ -72,8 +72,8 @@ var schedule_date = getCookie('buy_ticket_schedule');
 var movie_id = getCookie('buy_ticket_movie');
 var selectedSeat= 0
 // API endpoint to get list of kursi that is taken
-// var readKursiScheduleURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_schedule.php?schedule_id=" + schedule_id;
-var readKursiScheduleURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_schedule.php?schedule_date=" + schedule_date + "&movie_id=" + movie_id;
+// var readKursiScheduleURL = "http://localhost/engimav2/api/ticket/read_schedule.php?schedule_id=" + schedule_id;
+var readKursiScheduleURL = "http://localhost/engimav2/api/ticket/read_schedule.php?schedule_date=" + schedule_date + "&movie_id=" + movie_id;
 
 xhr.open("GET", readKursiScheduleURL, false);
 xhr.send(); // send request to API endpoint
@@ -228,7 +228,7 @@ function buyItBabe(){
 
 	//send to transaction API first, can't create ticket directly
 	var createTxnURL = "http://localhost:9090/transaction/add"
-	var buyingTicketURL = "http://localhost/tugas-besar-1-2019/api/ticket/create.php"
+	var buyingTicketURL = "http://localhost/engimav2/api/ticket/create.php"
 	
 	xhr.open("POST", createTxnURL, false)
 	xhr.send(JSON.stringify(requestBody));

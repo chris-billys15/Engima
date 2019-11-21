@@ -7,7 +7,7 @@
 
 var login = document.getElementById("form-submit");
 
-var apiRequest = fetch('http://localhost/tugas-besar-1-2019/api/user/read.php').then(function(response){
+var apiRequest = fetch('http://localhost/engimav2/api/user/read.php').then(function(response){
   return response.json()
 })
 

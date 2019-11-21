@@ -71,7 +71,7 @@ var horizontalLineElement = createHTMLElement(`<div class="horizontal-line"></di
 var username = getCookie('active_user');
 
 // send request to api
-var readTransactionUserURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_user.php?username=" + username;
+var readTransactionUserURL = "http://localhost/engimav2/api/ticket/read_user.php?username=" + username;
 xhr.open("GET", readTransactionUserURL, false);
 xhr.send();
 console.log(xhr.responseText);
@@ -90,7 +90,7 @@ if(typeof jsonResponse['message'] == 'undefined'){
 console.log("transaction list : " + transactionList);
 
 //read user review
-var readReviewUserURL = "http://localhost/tugas-besar-1-2019/api/review/read_user.php?username=" + username
+var readReviewUserURL = "http://localhost/engimav2/api/review/read_user.php?username=" + username
 xhr.open("GET", readReviewUserURL, false);
 xhr.send()
 
@@ -112,7 +112,7 @@ async function loadItBabe() {
 	transactionList.forEach(function(transaction){
 
 		
-		var readScheduleURL = "http://localhost/tugas-besar-1-2019/api/schedule/read_schedule.php?schedule_id=" + transaction
+		var readScheduleURL = "http://localhost/engimav2/api/schedule/read_schedule.php?schedule_id=" + transaction
 		xhr.open("GET", readScheduleURL, false)
 		xhr.send()
 
@@ -205,7 +205,7 @@ loadItBabe();
 function deleteItBabe(button){
 	console.log("delet this");
 	mID = button.value;
-	var deleteReviewURL = "http://localhost/tugas-besar-1-2019/api/review/delete.php"
+	var deleteReviewURL = "http://localhost/engimav2/api/review/delete.php"
 	requestBody = {'username':username, 'movie_id':mID}
 	xhr.open("POST", deleteReviewURL, false)
 	xhr.send(JSON.stringify(requestBody))
