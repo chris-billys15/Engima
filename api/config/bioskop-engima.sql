@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2019 at 10:03 AM
+-- Generation Time: Nov 19, 2019 at 05:22 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `bioskop-engima`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cookie`
+--
+
+CREATE TABLE `cookie` (
+  `username` varchar(50) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cookie`
+--
+
+INSERT INTO `cookie` (`username`) VALUES
+('admin'),
+('ardyh'),
+('dandi'),
+('labpro');
 
 -- --------------------------------------------------------
 
@@ -63,32 +83,41 @@ CREATE TABLE `movie` (
 --
 
 INSERT INTO `movie` (`movie_id`, `nama_movie`, `poster`, `synopsis`, `release_date`, `durasi`) VALUES
-(1, 'Titanic', NULL, 'Movie Classic yang bagus lah pokoke', '2019-09-19', 120),
-(2, 'Avengers Endgame', NULL, 'Movie terkenal banget lah pokoke', '2019-09-03', 90),
-(3, 'Kimi no Na Wa', NULL, 'Movie kewibuan yang disukai para non wibu', '2019-09-06', 100);
+(1, 'Titanic', 'https://images.unsplash.com/photo-1536431311719-398b6704d4cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60', 'Movie Classic yang bagus lah pokoke', '2019-09-19', 120),
+(2, 'Avengers Endgame', 'https://images.unsplash.com/photo-1439853949127-fa647821eba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60', 'Movie terkenal banget lah pokoke', '2019-09-03', 90),
+(3, 'Kimi no Na Wa', 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60', 'Movie kewibuan yang disukai para non wibu', '2019-09-06', 100),
+(4, 'Avengers Age of Ultron', 'https://images.unsplash.com/photo-1517811409552-396f829138a2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60', 'Avenger lawan ultraman', '2019-10-22', 130),
+(5, 'The Avengers', 'https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80', 'Avenger pertama', '2019-10-25', 120),
+(6, 'Avenger Sevenfold', 'https://images.unsplash.com/photo-1550236520-7050f3582da0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60', 'Avenger in charity concert', '2019-10-02', 100);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `movie-genre`
+-- Table structure for table `movie_genre`
 --
 
-CREATE TABLE `movie-genre` (
+CREATE TABLE `movie_genre` (
   `movie_id` int(11) NOT NULL,
   `genre_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `movie-genre`
+-- Dumping data for table `movie_genre`
 --
 
-INSERT INTO `movie-genre` (`movie_id`, `genre_id`) VALUES
+INSERT INTO `movie_genre` (`movie_id`, `genre_id`) VALUES
 (1, 3),
 (1, 1),
 (2, 2),
 (2, 4),
 (3, 1),
-(3, 3);
+(3, 3),
+(4, 1),
+(4, 2),
+(5, 4),
+(5, 2),
+(6, 1),
+(6, 3);
 
 -- --------------------------------------------------------
 
@@ -108,8 +137,9 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`username`, `movie_id`, `skor`, `content`) VALUES
-('ardyh', 3, 8, 'Saya bukan wibu, tapi saya suka filem ini'),
-('dandi', 3, 6, 'Mayan lah, tapi gak favorit');
+('ardyh', 3, 1, 'frickin luv it'),
+('dandi', 2, 1, 'lalalulu'),
+('dandi', 3, 1, 'ardy');
 
 -- --------------------------------------------------------
 
@@ -130,7 +160,10 @@ CREATE TABLE `schedule` (
 
 INSERT INTO `schedule` (`movie_id`, `schedule_id`, `jam`, `tanggal`) VALUES
 (3, 1, 2, '2019-09-09'),
-(2, 2, 4, '2019-09-20');
+(2, 2, 4, '2019-11-30'),
+(2, 3, 11, '2019-10-19'),
+(1, 4, 20, '2019-11-28'),
+(5, 5, 14, '2019-11-26');
 
 -- --------------------------------------------------------
 
@@ -149,8 +182,16 @@ CREATE TABLE `tiket` (
 --
 
 INSERT INTO `tiket` (`schedule_id`, `username`, `kursi`) VALUES
+(3, 'admin', 23),
 (1, 'ardyh', 4),
-(2, 'ardyh', 8);
+(2, 'ardyh', 8),
+(3, 'ardyh', 29),
+(4, 'ardyh', 30),
+(1, 'dandi', 24),
+(2, 'dandi', 18),
+(3, 'dandi', 17),
+(4, 'dandi', 29),
+(3, 'labpro', 27);
 
 -- --------------------------------------------------------
 
@@ -171,12 +212,22 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`username`, `password`, `email`, `profile_pic`, `phone`) VALUES
+('admin', 'admin', 'admin@admin.admin', '', '111111111'),
 ('ardyh', 'whatsoever', 'ardyharoen@gmail.com', NULL, '082213335597'),
-('dandi', 'whatsoever', 'dandi@gmail.com', NULL, '081122334455');
+('azhar', 'azhar', 'azhar@ganteng.com', '', '999000111'),
+('azharganteng', 'azharganteng', 'azharganteng@ganteng.com', '', '111222333'),
+('dandi', 'whatsoever', 'dandi@gmail.com', NULL, '081122334455'),
+('labpro', 'labpro', 'labpro@labpro.labpro', '', '222222222');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `cookie`
+--
+ALTER TABLE `cookie`
+  ADD PRIMARY KEY (`username`);
 
 --
 -- Indexes for table `genre`
@@ -191,9 +242,9 @@ ALTER TABLE `movie`
   ADD PRIMARY KEY (`movie_id`);
 
 --
--- Indexes for table `movie-genre`
+-- Indexes for table `movie_genre`
 --
-ALTER TABLE `movie-genre`
+ALTER TABLE `movie_genre`
   ADD KEY `movie-genre_ibfk_1` (`movie_id`),
   ADD KEY `genre_id constraint` (`genre_id`);
 
@@ -230,11 +281,17 @@ ALTER TABLE `user`
 --
 
 --
--- Constraints for table `movie-genre`
+-- Constraints for table `cookie`
 --
-ALTER TABLE `movie-genre`
+ALTER TABLE `cookie`
+  ADD CONSTRAINT `cookie_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `movie_genre`
+--
+ALTER TABLE `movie_genre`
   ADD CONSTRAINT `genre_id constraint` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`genre_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `movie-genre_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `movie_genre_ibfk_1` FOREIGN KEY (`movie_id`) REFERENCES `movie` (`movie_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `review`

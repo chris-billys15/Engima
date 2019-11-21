@@ -4,17 +4,35 @@ var apiRequest1 = fetch('http://localhost/tugas-besar-1-2019/api/movie/read.php'
 var apiRequest2 = fetch('http://localhost/tugas-besar-1-2019/api/review/read.php').then(function(response){
     return response.json()
 });
+now_date = (new Date()).toISOString().split("T")[0]
+prev_date = new Date()
+prev_date.setDate(prev_date.getDate() - 7)
+prev_date = prev_date.toISOString().split("T")[0]
+movie_date_link = "https://api.themoviedb.org/3/discover/movie?api_key=724dae92117735bb7f07f3f8a95157a0&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&release_date.gte="+prev_date+"&release_date.lte="+now_date
+console.log(movie_date_link)
+var apiRequest3 = fetch(movie_date_link).then(function(response){
+    return response.json()
+});
 
 //do API call and process the data on the go
-Promise.all([apiRequest1,apiRequest2]).then(function(values){
+Promise.all([apiRequest1,apiRequest2,apiRequest3]).then(function(values){
     var movie_data = values[0]['records'];
     var review_data = values[1]['records'];
+    var new_movie_data = values[2]['results'];
 
-    movie_data.forEach(element => {
+    var image_link = 'http://image.tmdb.org/t/p/original'
+    console.log(new_movie_data)
 
-        var title = element['nama_movie']
-        var poster = element['poster']
-        var movie_id = element['movie_id']
+    new_movie_data.forEach(element => {
+
+        var title = element['original_title']
+        if (element['poster_path'] == null){
+            return;
+        }
+        else{
+            var poster = image_link + element['poster_path']
+        }
+        var movie_id = element['id']
         var mean_review_score = 0
         var n_movie = 0
         var greetingText = 'Hi, ' + getCookie('active_user')
@@ -52,7 +70,7 @@ Promise.all([apiRequest1,apiRequest2]).then(function(values){
 
         var userScore = document.createElement('div')
         userScore.className = 'user-score'
-        userScore.appendChild(document.createTextNode(mean_review_score))
+        userScore.appendChild(document.createTextNode(element['vote_average']))
 
         score.appendChild(starImg)
         score.appendChild(userScore)

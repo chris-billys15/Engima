@@ -68,10 +68,12 @@ function createHTMLElement(HTMLString){
 
 // get taken seat list 
 var username = getCookie('active_user');
-var schedule_id = getCookie('buy_ticket_schedule');
+var schedule_date = getCookie('buy_ticket_schedule');
+var movie_id = getCookie('buy_ticket_movie');
 var selectedSeat= 0
 // API endpoint to get list of kursi that is taken
-var readKursiScheduleURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_schedule.php?schedule_id=" + schedule_id;
+// var readKursiScheduleURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_schedule.php?schedule_id=" + schedule_id;
+var readKursiScheduleURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_schedule.php?schedule_date=" + schedule_date + "&movie_id=" + movie_id;
 
 xhr.open("GET", readKursiScheduleURL, false);
 xhr.send(); // send request to API endpoint
@@ -95,20 +97,14 @@ takenList.forEach(function(kursi){
 
 
 // get time for this schedule_id
-var readScheduleURL = "http://localhost/tugas-besar-1-2019/api/schedule/read_schedule.php?schedule_id=" + schedule_id
-xhr.open("GET", readScheduleURL, false);
+var readMovieURL = 'https://api.themoviedb.org/3/movie/'+movie_id+'?api_key=724dae92117735bb7f07f3f8a95157a0'
+xhr.open("GET", readMovieURL, false);
 xhr.send()
 
 var jsonResponse = JSON.parse(xhr.responseText)
-console.log(xhr.responseText);
-// console.log(jsonResponse)
 
-var tanggal = jsonResponse['records'][0]['tanggal']
-var jam = jsonResponse['records'][0]['jam']
-var judul = jsonResponse['records'][0]['nama_movie']
-console.log("tanggal : " + tanggal)
-console.log("jam : " + jam)
-console.log("judul : "+ judul)
+var judul = jsonResponse['original_title']
+
 
 	
 
@@ -157,8 +153,8 @@ async function loadItBabe(){
 		document.getElementById('kursi-container').appendChild(temp);
 	}
 
-	
-	upperScheduleElement.innerHTML = tanggal + " - " + jam;
+	var upperScheduleElement = document.createElement('div')
+	upperScheduleElement.innerHTML = schedule_date + " - " + "14:00";
 	movieTitleElement.innerHTML = judul;
 	document.getElementsByClassName("movie-schedule")[0].appendChild(movieTitleElement);
 	document.getElementsByClassName("movie-schedule")[0].appendChild(upperScheduleElement);
@@ -199,7 +195,7 @@ function sendItBabe(button){
 		}
 
 		seatNumberElement.innerHTML = "#" + selectedSeat;
-		scheduleElement.innerHTML = tanggal + " - " + jam;
+		scheduleElement.innerHTML = schedule_date + " - " + "14:00";
 		ticketTitleElement.innerHTML = judul;
 
 		seatPriceElement.appendChild(seatNumberElement);
@@ -217,16 +213,29 @@ function sendItBabe(button){
 function buyItBabe(){
 
 	// set up request body
-	var requestBody = {'username':username,'schedule_id':parseInt(schedule_id),'kursi':parseInt(selectedSeat)}
+	//remember to set up VIRTUAL ACCOUNT
+	var timestamp = (new Date())
+	var current_date = timestamp.toISOString().split('T')[0]
+	var current_time = timestamp.constructor().split(' ')[4]
+	var timestamp = current_date + ' ' + current_time
+	var requestBody = {'user_id':username,
+					'movie_id':movie_id,
+					'seat':parseInt(selectedSeat),
+					'virtual_acc':111111111111,
+					'movie_sched':schedule_date,
+					'time_added':timestamp}
 	console.log(requestBody)
 
+	//send to transaction API first, can't create ticket directly
+	var createTxnURL = "http://localhost:9090/transaction/add"
 	var buyingTicketURL = "http://localhost/tugas-besar-1-2019/api/ticket/create.php"
-	xhr.open("POST", buyingTicketURL, false)
+	
+	xhr.open("POST", createTxnURL, false)
 	xhr.send(JSON.stringify(requestBody));
 
 	console.log(xhr.responseText)
 	jsonResponse = JSON.parse(xhr.responseText);
-	if(jsonResponse['message'] == 'Ticket was created.'){
+	if(jsonResponse['status'] == 200){
 		alert("Payment success! \nThank you for purchasing! You can now view your puchase now.");
 	} else {
 		alert(jsonResponse['message']);

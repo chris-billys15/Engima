@@ -7,7 +7,9 @@ class Ticket
 	private $tablename = "tiket";
 
 	// object properties
+	public $schedule_date;
 	public $schedule_id;
+	public $movie_id;
 	public $username;
 	public $kursi;
 
@@ -87,6 +89,24 @@ class Ticket
 
 		// bind param
 		$stmt->bindParam(':schedule_id', $this->schedule_id);
+
+		//execute query
+		$stmt->execute();
+
+		return $stmt;
+	}
+
+	public function read_schedule_date(){
+
+		// query to select every row that match the schedule_id
+		$query = "SELECT * FROM ". $this->tablename . " WHERE schedule_date = :schedule_date AND movie_id = :movie_id" ;
+
+		// prepare query statement
+		$stmt = $this->conn->prepare($query);
+
+		// bind param
+		$stmt->bindParam(':schedule_date', $this->schedule_date);
+		$stmt->bindParam(':movie_id', $this->movie_id);
 
 		//execute query
 		$stmt->execute();
