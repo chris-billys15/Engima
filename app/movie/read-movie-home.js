@@ -35,7 +35,7 @@ Promise.all([apiRequest1,apiRequest2,apiRequest3]).then(function(values){
         var movie_id = element['id']
         var mean_review_score = 0
         var n_movie = 0
-        var greetingText = 'Hi, ' + getCookie('active_user')
+        var greetingText = 'Hi yo, ' + getCookie('active_user')
         
         review_data.forEach(element => {
             if(element['movie_id'] == movie_id){
