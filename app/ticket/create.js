@@ -212,16 +212,39 @@ function sendItBabe(button){
 
 function buyItBabe(){
 
+	//request to create new virtual account
+	var bankServiceURL = 'http://100.26.43.243:8080/bankprowebservice-1.0-SNAPSHOT/NewWebService?wsdl'
+	xhr = new XMLHttpRequest()
+	xhr.open('POST', bankServiceURL, false)
+	var xmlRequest = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mav="http://mavenproject3.mycompany.com/">'+
+				'<soapenv:Header/>'+
+				'<soapenv:Body>'+
+				'<mav:addVirtualAccount>'+
+					'<!--Optional:-->'+
+					'<Rekening>1234567</Rekening>'+
+				'</mav:addVirtualAccount>'+
+				'</soapenv:Body>'+
+			'</soapenv:Envelope>'
+
+	xhr.setRequestHeader('Content-Type', 'text/xml')
+	xhr.send(xmlRequest)
+
+	console.log("This is the Response"); console.log(xhr.responseText)
+
+	//get the newly created virtual account number
+	virtualAccNum = xhr.responseText.split('<return>').pop().split('</return>')[0]
+	console.log('The new virtual account number'); console.log(virtualAccNum)
+
 	// set up request body
 	//remember to set up VIRTUAL ACCOUNT
-	var timestamp = (new Date())
+	var timestamp = new Date()
 	var current_date = timestamp.toISOString().split('T')[0]
 	var current_time = timestamp.constructor().split(' ')[4]
 	var timestamp = current_date + ' ' + current_time
 	var requestBody = {'user_id':username,
 					'movie_id':movie_id,
 					'seat':parseInt(selectedSeat),
-					'virtual_acc':111111111111,
+					'virtual_acc': virtualAccNum,
 					'movie_sched':schedule_date,
 					'time_added':timestamp}
 	console.log(requestBody)
@@ -230,18 +253,20 @@ function buyItBabe(){
 	var createTxnURL = "http://localhost:9090/transaction/add"
 	var buyingTicketURL = "http://localhost/engimav2/api/ticket/create.php"
 	
+	xhr = new XMLHttpRequest()
 	xhr.open("POST", createTxnURL, false)
+	xhr.setRequestHeader('Content-Type', 'application/json')
 	xhr.send(JSON.stringify(requestBody));
 
 	console.log(xhr.responseText)
 	jsonResponse = JSON.parse(xhr.responseText);
 	if(jsonResponse['status'] == 200){
-		alert("Payment success! \nThank you for purchasing! You can now view your puchase now.");
+		alert("Thank you for your purchase, don't forget to pay for the ticket in order to see the movie");
 	} else {
 		alert(jsonResponse['message']);
 	}
 	console.log("is alert closed yet?");
-	window.location.replace("transaction.html");
+	// window.location.replace("transaction.html");
 	// jsonResponse = JSON.parse(xhr.responseText)
 
 }

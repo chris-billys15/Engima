@@ -72,20 +72,21 @@ var username = getCookie('active_user');
 
 // send request to api
 var readTransactionUserURL = "http://localhost/engimav2/api/ticket/read_user.php?username=" + username;
-xhr.open("GET", readTransactionUserURL, false);
+var readUserTxn = "http://localhost:9090/users/" + username
+xhr.open("GET", readUserTxn, false);
 xhr.send();
-console.log(xhr.responseText);
+console.log("Response Test\n"+xhr.responseText);
 var jsonResponse = JSON.parse(xhr.responseText);
+console.log(jsonResponse)
 
 
-
-var transactionList = []
-//check if there is any transaction by this user
-if(typeof jsonResponse['message'] == 'undefined'){
-	jsonResponse['records'].forEach(function(row){
-		transactionList.push(parseInt(row['schedule_id']));
-	});
-}
+var transactionList = jsonResponse['values']
+// check if there is any transaction by this user
+// if(typeof jsonResponse['message'] == 'undefined'){
+// 	jsonResponse['values'].forEach(function(row){
+// 		transactionList.push(parseInt(row['id']));
+// 	});
+// }
 
 console.log("transaction list : " + transactionList);
 
@@ -95,12 +96,13 @@ xhr.open("GET", readReviewUserURL, false);
 xhr.send()
 
 var jsonResponse = JSON.parse(xhr.responseText);
+console.log(jsonResponse)
 var reviewedList = [] // list of movie id than has been reviewed
 
 jsonResponse[0]['records'].forEach(function(row){
 	reviewedList.push(row['movie_id'])
 });
-
+console.log(reviewedList)
 
 
 async function loadItBabe() {
@@ -112,17 +114,26 @@ async function loadItBabe() {
 	transactionList.forEach(function(transaction){
 
 		
-		var readScheduleURL = "http://localhost/engimav2/api/schedule/read_schedule.php?schedule_id=" + transaction
-		xhr.open("GET", readScheduleURL, false)
+		// var readScheduleURL = "http://localhost/engimav2/api/schedule/read_schedule.php?schedule_id=" + transaction
+		// xhr.open("GET", readScheduleURL, false)
+		// xhr.send()
+
+		console.log(transaction);
+		// console.log(xhr.responseText);
+		// var jsonResponse = JSON.parse(xhr.responseText)
+
+		
+		let tempMovieId = transaction['movie_id']
+
+		//find movie details
+		let movieDetailURL = "https://api.themoviedb.org/3/movie/"+ tempMovieId +"?api_key=724dae92117735bb7f07f3f8a95157a0" 
+		xhr = new XMLHttpRequest()
+		xhr.open('GET', movieDetailURL, false)
 		xhr.send()
+		movieData = (JSON.parse(xhr.responseText))
 
-		console.log("response for transaction "+transaction);
-		console.log(xhr.responseText);
-		var jsonResponse = JSON.parse(xhr.responseText)
-
-		jadwal = jsonResponse['records'][0]['tanggal'] + " - " + jsonResponse['records'][0]['jam']
-		judul = jsonResponse['records'][0]['nama_movie']
-		tempMovieId = jsonResponse['records'][0]['movie_id']
+		// jadwal = jsonResponse['records'][0]['tanggal'] + " - " + jsonResponse['records'][0]['jam']
+		judul = movieData['original_title']
 
 		// html template
 		var transactionContainerElement = createHTMLElement(`<div class="transaction-container"></div>`)
@@ -133,6 +144,9 @@ async function loadItBabe() {
 		var scheduleElement = createHTMLElement(`<div class="schedule"></div>`)
 		var keyElement = createHTMLElement(`<p class="key">Schedule:</p>`);
 		var valueElement = createHTMLElement(`<p class="value"></p>`)
+		var statusElement = createHTMLElement(`<div class="status"></div>`)
+		var statusKey = createHTMLElement(`<p class="status-key">Status:</p>`);
+		var statusValue = createHTMLElement(`<p class="status-value"></p>`)
 		var reviewCheckElement = createHTMLElement(`<div class="review-check">Your review has been submitted.</div>`)
 		var whiteSpaceElement = createHTMLElement(`<div class="white-space"></div>`)
 		var reviewButtonElement = createHTMLElement(`<div class="review-button"></div>`)
@@ -145,40 +159,49 @@ async function loadItBabe() {
 		// use bottom up approach to build the transaction container
 
 		//add src to the image
-		imageElement.src = jsonResponse['records'][0]['poster']
+		imageElement.src = 'http://image.tmdb.org/t/p/w342' + movieData['poster_path']
 
 		// build image container
 		imageContainerElement.appendChild(imageElement)
 
 		// fill value element
-		valueElement.innerHTML = jadwal;
+		airingTime = new Date(transaction['schedule_date'])
+		airingTime.setHours(airingTime.getHours() - 7)
+		console.log("airing time :"+airingTime)
+		valueElement.innerHTML = airingTime.toLocaleDateString() + ' ' + airingTime.toLocaleTimeString();
 
 		// build schedule element
 		scheduleElement.appendChild(keyElement);
 		scheduleElement.appendChild(valueElement);
 
+		// fill value element
+		statusValue.innerHTML = transaction['status'];
+
+		//build status element
+		statusElement.appendChild(statusKey);
+		statusElement.appendChild(statusValue);
+
 		// build content detail element
 		movieTitleElement.innerHTML = judul
 		contentDetailElement.appendChild(movieTitleElement)
-		scheduleElement.innerHTMl = jadwal
 		contentDetailElement.appendChild(scheduleElement)
+		contentDetailElement.appendChild(statusElement)
 		// check if user has submitted his review before
-		if(reviewedList.includes(tempMovieId)){
-			contentDetailElement.appendChild(reviewCheckElement)
-		}
-
+		// if(reviewedList.includes(tempMovieId)){
+		// 	console.log("went here -1")
+		// 	contentDetailElement.appendChild(reviewCheckElement)
+		// }
 
 		var today = new Date();
-		var now = ''
-		now += today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2, '0') +"-"+ String(today.getHours()).padStart(2, '0')
+		var now = new Date()
+		// now += today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2, '0') +"-"+ String(today.getHours()).padStart(2, '0')
 		console.log("now :"+now)
-		airingTime = jsonResponse['records'][0]['tanggal'] + "-" + (jsonResponse['records'][0]['jam']).padStart(2,'0');
-		console.log("airing time :"+airingTime)
+		// airingTime = jsonResponse['records'][0]['tanggal'] + "-" + (jsonResponse['records'][0]['jam']).padStart(2,'0');
 
 		// built review button
 		// check if user has been watching it yet
-		if(now > airingTime){
-			if(reviewedList.includes(tempMovieId)){
+		if((transaction['status'] == 'COMPLETED')){
+			if(reviewedList.includes((tempMovieId.toString()))){
 				reviewButtonElement.appendChild(deleteButtonElement)
 				reviewButtonElement.appendChild(editButtonElement)
 			} else {

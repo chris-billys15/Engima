@@ -151,12 +151,12 @@ a{
     display: flex;
     flex-direction: column;
 }
-.schedule{
+.schedule, .status{
     display: flex;
     flex-direction: row;
     align-items: center;
 }
-.key{
+.key, .status-key{
     color:#54cbe3;
     padding-right: 20px;
 }
