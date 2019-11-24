@@ -122,7 +122,7 @@ async function loadItBabe() {
 		// console.log(xhr.responseText);
 		// var jsonResponse = JSON.parse(xhr.responseText)
 
-		
+		let transactionStatus;
 		let tempMovieId = transaction['movie_id']
 
 		//find movie details
@@ -131,6 +131,46 @@ async function loadItBabe() {
 		xhr.open('GET', movieDetailURL, false)
 		xhr.send()
 		movieData = (JSON.parse(xhr.responseText))
+
+		//get transactional datas from bank
+		var parsedStartDateTime = transaction['time_added'].split('.')[0]
+		var parsedEndDateTime = (new Date(parsedStartDateTime))
+		parsedEndDateTime.setMinutes(parsedEndDateTime.getMinutes() + 2)
+		parsedEndDateTime = parsedEndDateTime.toISOString().split('.')[0]
+		var xmlBankRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mav="http://mavenproject3.mycompany.com/">
+			<soapenv:Header/>
+			<soapenv:Body>
+			<mav:checkTransaction>
+				<!--Optional:-->
+				<rekening>`+transaction['virtual_account']+`</rekening>
+				<!--Optional:-->
+				<nominal>45000</nominal>
+				<!--Optional:-->
+				<startDate>`+parsedStartDateTime+`</startDate>
+				<!--Optional:-->
+				<finishDate>`+parsedEndDateTime+`</finishDate>
+			</mav:checkTransaction>
+			</soapenv:Body>
+		</soapenv:Envelope>`
+		console.log('the XML Request:\n'+xmlBankRequest)
+		var bankServiceURL = 'http://100.26.43.243:8080/bankprowebservice-1.0-SNAPSHOT/NewWebService?wsdl'
+		var xhr = new XMLHttpRequest()
+		xhr.open('POST', bankServiceURL, false)
+		xhr.setRequestHeader('Content-Type', 'text/xml')
+		xhr.send(xmlBankRequest)
+
+		isTransactionExist = xhr.responseText.split('<return>').pop().split('</return>')[0]
+		if (isTransactionExist == 'false'){
+			isTransactionExist = false
+			//if already passed time limit, set transaction status to cancelled
+
+			//else, still pending
+		}
+		else{
+			//if transaction exists
+			isTransactionExist = true
+		}
+		console.log('The new virtual account number'); console.log(virtualAccNum)
 
 		// jadwal = jsonResponse['records'][0]['tanggal'] + " - " + jsonResponse['records'][0]['jam']
 		judul = movieData['original_title']
@@ -175,7 +215,7 @@ async function loadItBabe() {
 		scheduleElement.appendChild(valueElement);
 
 		// fill value element
-		statusValue.innerHTML = transaction['status'];
+		statusValue.innerHTML = transactionStatus;
 
 		//build status element
 		statusElement.appendChild(statusKey);
@@ -231,6 +271,7 @@ function deleteItBabe(button){
 	var deleteReviewURL = "http://localhost/engimav2/api/review/delete.php"
 	requestBody = {'username':username, 'movie_id':mID}
 	xhr.open("POST", deleteReviewURL, false)
+	xhr.setRequestHeader('Content-Type', 'application/json')
 	xhr.send(JSON.stringify(requestBody))
 	setCookie('username',username)
 	setCookie('movie_id',mID)
