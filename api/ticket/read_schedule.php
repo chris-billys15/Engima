@@ -18,9 +18,10 @@ $db = $database->getConnection();
 $ticket = new Ticket($db);
 
 // set schedule_id for ticket, sanitize it first
-$ticket->schedule_id = isset($_GET['schedule_id']) ? htmlspecialchars(strip_tags($_GET['schedule_id'])) : die();
+$ticket->schedule_date = isset($_GET['schedule_date']) ? htmlspecialchars(strip_tags($_GET['schedule_date'])) : die();
+$ticket->movie_id = isset($_GET['movie_id']) ? htmlspecialchars(strip_tags($_GET['movie_id'])) : die();
 
-$stmt = $ticket->read_schedule();
+$stmt = $ticket->read_schedule_date();
 $num = $stmt->rowCount();
 
 if($num > 0){
@@ -40,7 +41,7 @@ if($num > 0){
 		// fill the array
 		$ticket_item = array(
 			"username" => $username,
-			"kursi" => $kursi,
+			"seat_no" => $seat_no,
 		);
 
 		array_push($tickets_arr["records"], $ticket_item);

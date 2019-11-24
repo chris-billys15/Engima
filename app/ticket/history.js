@@ -71,37 +71,45 @@ var horizontalLineElement = createHTMLElement(`<div class="horizontal-line"></di
 var username = getCookie('active_user');
 
 // send request to api
-var readTransactionUserURL = "http://localhost/tugas-besar-1-2019/api/ticket/read_user.php?username=" + username;
-xhr.open("GET", readTransactionUserURL, false);
+var readTransactionUserURL = "http://localhost/engimav2/api/ticket/read_user.php?username=" + username;
+var readUserTxn = "http://localhost:9090/users/" + username
+xhr.open("GET", readUserTxn, false);
 xhr.send();
-console.log(xhr.responseText);
+console.log("Response Test\n"+xhr.responseText);
 var jsonResponse = JSON.parse(xhr.responseText);
+console.log(jsonResponse)
 
 
-
-var transactionList = []
-//check if there is any transaction by this user
-if(typeof jsonResponse['message'] == 'undefined'){
-	jsonResponse['records'].forEach(function(row){
-		transactionList.push(parseInt(row['schedule_id']));
-	});
-}
+var transactionList = jsonResponse['values']
+// check if there is any transaction by this user
+// if(typeof jsonResponse['message'] == 'undefined'){
+// 	jsonResponse['values'].forEach(function(row){
+// 		transactionList.push(parseInt(row['id']));
+// 	});
+// }
 
 console.log("transaction list : " + transactionList);
 
 //read user review
-var readReviewUserURL = "http://localhost/tugas-besar-1-2019/api/review/read_user.php?username=" + username
+var readReviewUserURL = "http://localhost/engimav2/api/review/read_user.php?username=" + username
 xhr.open("GET", readReviewUserURL, false);
 xhr.send()
 
 var jsonResponse = JSON.parse(xhr.responseText);
+console.log(jsonResponse)
 var reviewedList = [] // list of movie id than has been reviewed
 
 jsonResponse[0]['records'].forEach(function(row){
 	reviewedList.push(row['movie_id'])
 });
+console.log(reviewedList)
 
-
+function isTransactionWithinTime(timeStr){
+	then = new Date(timeStr)
+	twoMinFromThen = then.setMinutes(then.getMinutes() + 2)
+	now = new Date()
+	return now <= twoMinFromThen
+}
 
 async function loadItBabe() {
 
@@ -112,17 +120,76 @@ async function loadItBabe() {
 	transactionList.forEach(function(transaction){
 
 		
-		var readScheduleURL = "http://localhost/tugas-besar-1-2019/api/schedule/read_schedule.php?schedule_id=" + transaction
-		xhr.open("GET", readScheduleURL, false)
+		// var readScheduleURL = "http://localhost/engimav2/api/schedule/read_schedule.php?schedule_id=" + transaction
+		// xhr.open("GET", readScheduleURL, false)
+		// xhr.send()
+
+		console.log(transaction);
+		// console.log(xhr.responseText);
+		// var jsonResponse = JSON.parse(xhr.responseText)
+
+		let transactionStatus;
+		let tempMovieId = transaction['movie_id']
+
+		//find movie details
+		let movieDetailURL = "https://api.themoviedb.org/3/movie/"+ tempMovieId +"?api_key=724dae92117735bb7f07f3f8a95157a0" 
+		xhr = new XMLHttpRequest()
+		xhr.open('GET', movieDetailURL, false)
 		xhr.send()
+		movieData = (JSON.parse(xhr.responseText))
 
-		console.log("response for transaction "+transaction);
-		console.log(xhr.responseText);
-		var jsonResponse = JSON.parse(xhr.responseText)
+		//get transactional datas from bank
+		var parsedStartDateTime = transaction['time_added'].split('.')[0]
+		var parsedEndDateTime = (new Date(parsedStartDateTime))
+		parsedEndDateTime.setMinutes(parsedEndDateTime.getMinutes() + 2)
+		parsedEndDateTime = parsedEndDateTime.toISOString().split('.')[0]
+		var xmlBankRequest = `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mav="http://mavenproject3.mycompany.com/">
+			<soapenv:Header/>
+			<soapenv:Body>
+			<mav:checkTransaction>
+				<!--Optional:-->
+				<rekening>`+transaction['virtual_account']+`</rekening>
+				<!--Optional:-->
+				<nominal>45000</nominal>
+				<!--Optional:-->
+				<startDate>`+parsedStartDateTime+`</startDate>
+				<!--Optional:-->
+				<finishDate>`+parsedEndDateTime+`</finishDate>
+			</mav:checkTransaction>
+			</soapenv:Body>
+		</soapenv:Envelope>`
+		console.log('the XML Request:\n'+xmlBankRequest)
+		var bankServiceURL = 'http://100.26.43.243:8080/bankprowebservice-1.0-SNAPSHOT/NewWebService?wsdl'
+		var xhr = new XMLHttpRequest()
+		xhr.open('POST', bankServiceURL, false)
+		xhr.setRequestHeader('Content-Type', 'text/xml')
+		xhr.send(xmlBankRequest)
 
-		jadwal = jsonResponse['records'][0]['tanggal'] + " - " + jsonResponse['records'][0]['jam']
-		judul = jsonResponse['records'][0]['nama_movie']
-		tempMovieId = jsonResponse['records'][0]['movie_id']
+		isTransactionExist = xhr.responseText.split('<return>').pop().split('</return>')[0]
+		if (transaction['status'] == 'PENDING')
+			if (isTransactionExist == 'false'){
+				isTransactionExist = false
+
+				if(!isTransactionWithinTime(parsedStartDateTime)){
+					//if already passed time limit, set transaction status to cancelled
+					transactionStatus = 'CANCELLED'
+				}
+				else{
+					//else, still pending
+					transactionStatus = 'PENDING'
+				}
+			}
+			else{
+				//if transaction exists
+				isTransactionExist = true
+				transactionStatus = 'COMPLETED'
+			}
+		else{
+			transactionStatus = transaction['status']
+		}
+
+		// jadwal = jsonResponse['records'][0]['tanggal'] + " - " + jsonResponse['records'][0]['jam']
+		judul = movieData['original_title']
 
 		// html template
 		var transactionContainerElement = createHTMLElement(`<div class="transaction-container"></div>`)
@@ -133,6 +200,9 @@ async function loadItBabe() {
 		var scheduleElement = createHTMLElement(`<div class="schedule"></div>`)
 		var keyElement = createHTMLElement(`<p class="key">Schedule:</p>`);
 		var valueElement = createHTMLElement(`<p class="value"></p>`)
+		var statusElement = createHTMLElement(`<div class="status"></div>`)
+		var statusKey = createHTMLElement(`<p class="status-key">Status:</p>`);
+		var statusValue = createHTMLElement(`<p class="status-value"></p>`)
 		var reviewCheckElement = createHTMLElement(`<div class="review-check">Your review has been submitted.</div>`)
 		var whiteSpaceElement = createHTMLElement(`<div class="white-space"></div>`)
 		var reviewButtonElement = createHTMLElement(`<div class="review-button"></div>`)
@@ -145,40 +215,49 @@ async function loadItBabe() {
 		// use bottom up approach to build the transaction container
 
 		//add src to the image
-		imageElement.src = jsonResponse['records'][0]['poster']
+		imageElement.src = 'http://image.tmdb.org/t/p/w342' + movieData['poster_path']
 
 		// build image container
 		imageContainerElement.appendChild(imageElement)
 
 		// fill value element
-		valueElement.innerHTML = jadwal;
+		airingTime = new Date(transaction['schedule_date'])
+		airingTime.setHours(airingTime.getHours() - 7)
+		console.log("airing time :"+airingTime)
+		valueElement.innerHTML = airingTime.toLocaleDateString() + ' ' + airingTime.toLocaleTimeString();
 
 		// build schedule element
 		scheduleElement.appendChild(keyElement);
 		scheduleElement.appendChild(valueElement);
 
+		// fill value element
+		statusValue.innerHTML = transactionStatus;
+
+		//build status element
+		statusElement.appendChild(statusKey);
+		statusElement.appendChild(statusValue);
+
 		// build content detail element
 		movieTitleElement.innerHTML = judul
 		contentDetailElement.appendChild(movieTitleElement)
-		scheduleElement.innerHTMl = jadwal
 		contentDetailElement.appendChild(scheduleElement)
+		contentDetailElement.appendChild(statusElement)
 		// check if user has submitted his review before
-		if(reviewedList.includes(tempMovieId)){
-			contentDetailElement.appendChild(reviewCheckElement)
-		}
-
+		// if(reviewedList.includes(tempMovieId)){
+		// 	console.log("went here -1")
+		// 	contentDetailElement.appendChild(reviewCheckElement)
+		// }
 
 		var today = new Date();
-		var now = ''
-		now += today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2, '0') +"-"+ String(today.getHours()).padStart(2, '0')
+		var now = new Date()
+		// now += today.getFullYear() + "-" + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2, '0') +"-"+ String(today.getHours()).padStart(2, '0')
 		console.log("now :"+now)
-		airingTime = jsonResponse['records'][0]['tanggal'] + "-" + (jsonResponse['records'][0]['jam']).padStart(2,'0');
-		console.log("airing time :"+airingTime)
+		// airingTime = jsonResponse['records'][0]['tanggal'] + "-" + (jsonResponse['records'][0]['jam']).padStart(2,'0');
 
 		// built review button
 		// check if user has been watching it yet
-		if(now > airingTime){
-			if(reviewedList.includes(tempMovieId)){
+		if((transactionStatus == 'COMPLETED')){
+			if(reviewedList.includes((tempMovieId.toString()))){
 				reviewButtonElement.appendChild(deleteButtonElement)
 				reviewButtonElement.appendChild(editButtonElement)
 			} else {
@@ -205,9 +284,10 @@ loadItBabe();
 function deleteItBabe(button){
 	console.log("delet this");
 	mID = button.value;
-	var deleteReviewURL = "http://localhost/tugas-besar-1-2019/api/review/delete.php"
+	var deleteReviewURL = "http://localhost/engimav2/api/review/delete.php"
 	requestBody = {'username':username, 'movie_id':mID}
 	xhr.open("POST", deleteReviewURL, false)
+	xhr.setRequestHeader('Content-Type', 'application/json')
 	xhr.send(JSON.stringify(requestBody))
 	setCookie('username',username)
 	setCookie('movie_id',mID)
