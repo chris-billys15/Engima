@@ -7,9 +7,9 @@ var apiRequest1 = fetch('https://api.themoviedb.org/3/movie/'+movie_id+'?api_key
 var apiRequest2 = fetch('http://localhost/engimav2/api/review/read.php').then(function(response){
     return response.json()
 });
-var apiRequest3 = fetch('http://localhost/engimav2/api/schedule/read_movie.php?movie_id='+movie_id).then(function(response){
-    return response.json()
-});
+// var apiRequest3 = fetch('http://localhost/engimav2/api/schedule/read_movie.php?movie_id='+movie_id).then(function(response){
+//     return response.json()
+// });
 var apiRequest4 = fetch('http://localhost/engimav2/api/ticket/read.php').then(function(response){
     return response.json()
 });
@@ -31,12 +31,13 @@ function isAvailable(hour, date){
     return date_schedule > date_now
 }
 
-Promise.all([apiRequest1,apiRequest2, apiRequest3, apiRequest4]).then(function(values){
+Promise.all([apiRequest1,apiRequest2, apiRequest4]).then(function(values){
     var movie_data = values[0];
     console.log(movie_data)
     var review_data = values[1]['records'];
-    var schedule_data = values[2]['records'];
-    var ticket_data = values[3]['records'];
+    // var ticket_data = values[3]['records'];
+
+    console.log(review_data)
 
     //process review data
     var review_data_movie = []
@@ -49,8 +50,9 @@ Promise.all([apiRequest1,apiRequest2, apiRequest3, apiRequest4]).then(function(v
         }
     }); 
 
-
     mean_review_score = mean_review_score/review_data_movie.length
+
+    console.log("mean review score: "+ mean_review_score)
 
     if (review_data_movie.length > 0){
         review_data_movie.forEach(element => {
@@ -113,6 +115,7 @@ Promise.all([apiRequest1,apiRequest2, apiRequest3, apiRequest4]).then(function(v
     var durasi = movie_data['runtime']
     var release_date = movie_data['release_date']
     var synopsis = movie_data['overview']
+    var moviedb_score = movie_data['vote_average']
     var image_link = 'http://image.tmdb.org/t/p/w342' + movie_data['poster_path']
     var genres = []
     movie_data['genres'].forEach(element => {
@@ -125,7 +128,8 @@ Promise.all([apiRequest1,apiRequest2, apiRequest3, apiRequest4]).then(function(v
     document.getElementsByClassName('duration')[0].innerHTML = durasi + ' mins'
     document.getElementsByClassName('release-date')[0].innerHTML = release_date
     document.getElementsByClassName('synopsis')[0].innerHTML = synopsis
-    document.getElementsByClassName('score')[0].innerHTML = mean_review_score
+    document.getElementsByClassName('score')[0].innerHTML = moviedb_score
+    document.getElementsByClassName('score-review')[0].innerHTML = mean_review_score
     document.getElementsByClassName('img-detail')[0].src = image_link
     
     //process schedule data

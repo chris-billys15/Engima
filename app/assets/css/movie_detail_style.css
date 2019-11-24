@@ -138,7 +138,7 @@ a{
     display: inline-block;
 }
 
-.score-container .score{
+.score-container .score, .score-container .score-review{
     display: inline-block;
 }
 

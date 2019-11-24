@@ -106,7 +106,7 @@ console.log(reviewedList)
 
 function isTransactionWithinTime(timeStr){
 	then = new Date(timeStr)
-	twoMinFromThen = now.setMinutes(now.getMinutes() + 2)
+	twoMinFromThen = then.setMinutes(then.getMinutes() + 2)
 	now = new Date()
 	return now <= twoMinFromThen
 }
@@ -166,24 +166,27 @@ async function loadItBabe() {
 		xhr.send(xmlBankRequest)
 
 		isTransactionExist = xhr.responseText.split('<return>').pop().split('</return>')[0]
-		if (isTransactionExist == 'false'){
-			isTransactionExist = false
+		if (transaction['status'] == 'PENDING')
+			if (isTransactionExist == 'false'){
+				isTransactionExist = false
 
-			if(!isTransactionWithinTime(parsedStartDateTime)){
-				//if already passed time limit, set transaction status to cancelled
-				transactionStatus = 'CANCELLED'
+				if(!isTransactionWithinTime(parsedStartDateTime)){
+					//if already passed time limit, set transaction status to cancelled
+					transactionStatus = 'CANCELLED'
+				}
+				else{
+					//else, still pending
+					transactionStatus = 'PENDING'
+				}
 			}
 			else{
-				//else, still pending
-				transactionStatus = 'PENDING'
+				//if transaction exists
+				isTransactionExist = true
+				transactionStatus = 'COMPLETED'
 			}
-		}
 		else{
-			//if transaction exists
-			isTransactionExist = true
-			transactionStatus = 'COMPLETED'
+			transactionStatus = transaction['status']
 		}
-		console.log('The new virtual account number'); console.log(virtualAccNum)
 
 		// jadwal = jsonResponse['records'][0]['tanggal'] + " - " + jsonResponse['records'][0]['jam']
 		judul = movieData['original_title']
@@ -253,7 +256,7 @@ async function loadItBabe() {
 
 		// built review button
 		// check if user has been watching it yet
-		if((transaction['status'] == 'COMPLETED')){
+		if((transactionStatus == 'COMPLETED')){
 			if(reviewedList.includes((tempMovieId.toString()))){
 				reviewButtonElement.appendChild(deleteButtonElement)
 				reviewButtonElement.appendChild(editButtonElement)
