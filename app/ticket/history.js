@@ -104,6 +104,12 @@ jsonResponse[0]['records'].forEach(function(row){
 });
 console.log(reviewedList)
 
+function isTransactionWithinTime(timeStr){
+	then = new Date(timeStr)
+	twoMinFromThen = now.setMinutes(now.getMinutes() + 2)
+	now = new Date()
+	return now <= twoMinFromThen
+}
 
 async function loadItBabe() {
 
@@ -162,13 +168,20 @@ async function loadItBabe() {
 		isTransactionExist = xhr.responseText.split('<return>').pop().split('</return>')[0]
 		if (isTransactionExist == 'false'){
 			isTransactionExist = false
-			//if already passed time limit, set transaction status to cancelled
 
-			//else, still pending
+			if(!isTransactionWithinTime(parsedStartDateTime)){
+				//if already passed time limit, set transaction status to cancelled
+				transactionStatus = 'CANCELLED'
+			}
+			else{
+				//else, still pending
+				transactionStatus = 'PENDING'
+			}
 		}
 		else{
 			//if transaction exists
 			isTransactionExist = true
+			transactionStatus = 'COMPLETED'
 		}
 		console.log('The new virtual account number'); console.log(virtualAccNum)
 
