@@ -43,7 +43,7 @@ function searchMovie(){
 
 function searchResult(){
     var movie_query = getCookie("movie_query")
-    var movieQueryURL = "http://localhost/engimav2/api/movie/search.php?movie=" + movie_query;
+    var movieQueryURL = "http://100.26.43.243/engimav2/api/movie/search.php?movie=" + movie_query;
 
     xhr.open("GET", movieQueryURL, false);
     xhr.send(); // send request to API endpoint
@@ -65,7 +65,7 @@ function newSearchResult(page_num){
 
 function reviewResult(){
 	var movie_query = getCookie("movie_query")
-    var movieQueryURL = "http://localhost/engimav2/api/review/read.php"	;
+    var movieQueryURL = "http://100.26.43.243/engimav2/api/review/read.php"	;
 
     xhr.open("GET", movieQueryURL, false);
     xhr.send(); // send request to API endpoint

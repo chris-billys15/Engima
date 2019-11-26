@@ -19,7 +19,7 @@ function validateUsername(str){
                 }
             }
         }
-        xhr.open('GET', 'http://localhost/engimav2/api/user/read_one.php?username='+str)
+        xhr.open('GET', 'http://100.26.43.243/engimav2/api/user/read_one.php?username='+str)
         xhr.send()
     }
 }
@@ -44,7 +44,7 @@ function validateEmail(str){
                 } 
             }
         }
-        xhr.open('GET', 'http://localhost/engimav2/api/user/read_one.php?email='+str)
+        xhr.open('GET', 'http://100.26.43.243/engimav2/api/user/read_one.php?email='+str)
         xhr.send()
     }
 }
@@ -68,7 +68,7 @@ function validatePhone(str){
                 }
             }
         }
-        xhr.open('GET', 'http://localhost/engimav2/api/user/read_one.php?phone='+str)
+        xhr.open('GET', 'http://100.26.43.243/engimav2/api/user/read_one.php?phone='+str)
         xhr.send()
     }
 }
@@ -116,7 +116,7 @@ function processRegistration(){
         console.log(JSON.stringify(createUser))
 
         var xhr = new XMLHttpRequest()
-        xhr.open('POST', 'http://localhost/engimav2/api/user/create.php', false)
+        xhr.open('POST', 'http://100.26.43.243/engimav2/api/user/create.php', false)
         xhr.send(JSON.stringify(createUser))
 
         

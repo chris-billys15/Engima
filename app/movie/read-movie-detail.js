@@ -4,13 +4,13 @@ var movie_id = getCookie("movie_id_cookie")
 var apiRequest1 = fetch('https://api.themoviedb.org/3/movie/'+movie_id+'?api_key=724dae92117735bb7f07f3f8a95157a0').then(function(response){ 
     return response.json()
 });
-var apiRequest2 = fetch('http://localhost/engimav2/api/review/read.php').then(function(response){
+var apiRequest2 = fetch('http://100.26.43.243/engimav2/api/review/read.php').then(function(response){
     return response.json()
 });
-// var apiRequest3 = fetch('http://localhost/engimav2/api/schedule/read_movie.php?movie_id='+movie_id).then(function(response){
+// var apiRequest3 = fetch('http://100.26.43.243/engimav2/api/schedule/read_movie.php?movie_id='+movie_id).then(function(response){
 //     return response.json()
 // });
-var apiRequest4 = fetch('http://localhost/engimav2/api/ticket/read.php').then(function(response){
+var apiRequest4 = fetch('http://100.26.43.243/engimav2/api/ticket/read.php').then(function(response){
     return response.json()
 });
 

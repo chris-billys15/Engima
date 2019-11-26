@@ -71,8 +71,8 @@ var horizontalLineElement = createHTMLElement(`<div class="horizontal-line"></di
 var username = getCookie('active_user');
 
 // send request to api
-var readTransactionUserURL = "http://localhost/engimav2/api/ticket/read_user.php?username=" + username;
-var readUserTxn = "http://localhost:9090/users/" + username
+var readTransactionUserURL = "http://100.26.43.243/engimav2/api/ticket/read_user.php?username=" + username;
+var readUserTxn = "http://100.26.43.243:9090/users/" + username
 xhr.open("GET", readUserTxn, false);
 xhr.send();
 console.log("Response Test\n"+xhr.responseText);
@@ -91,7 +91,7 @@ var transactionList = jsonResponse['values']
 console.log("transaction list : " + transactionList);
 
 //read user review
-var readReviewUserURL = "http://localhost/engimav2/api/review/read_user.php?username=" + username
+var readReviewUserURL = "http://100.26.43.243/engimav2/api/review/read_user.php?username=" + username
 xhr.open("GET", readReviewUserURL, false);
 xhr.send()
 
@@ -120,7 +120,7 @@ async function loadItBabe() {
 	transactionList.forEach(function(transaction){
 
 		
-		// var readScheduleURL = "http://localhost/engimav2/api/schedule/read_schedule.php?schedule_id=" + transaction
+		// var readScheduleURL = "http://100.26.43.243/engimav2/api/schedule/read_schedule.php?schedule_id=" + transaction
 		// xhr.open("GET", readScheduleURL, false)
 		// xhr.send()
 
@@ -284,7 +284,7 @@ loadItBabe();
 function deleteItBabe(button){
 	console.log("delet this");
 	mID = button.value;
-	var deleteReviewURL = "http://localhost/engimav2/api/review/delete.php"
+	var deleteReviewURL = "http://100.26.43.243/engimav2/api/review/delete.php"
 	requestBody = {'username':username, 'movie_id':mID}
 	xhr.open("POST", deleteReviewURL, false)
 	xhr.setRequestHeader('Content-Type', 'application/json')

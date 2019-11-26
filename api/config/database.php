@@ -1,6 +1,6 @@
 <?php
     class Database{
-        private $host = "localhost";
+        private $host = "100.26.43.243";
         private $db_name = "bioskopengima";
         private $username = "root";
         private $password = "";
